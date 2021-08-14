@@ -1,0 +1,22 @@
+-- definition of script property can't be used outside of script, so go.property must stay here
+-- via https://defold.com/manuals/script-properties/
+go.property("timer", 0)
+
+-- loading of fennel compiler /fennel.lua
+-- since require is used, this is picked up by Defold as dependency (as any other module)
+-- can be stored at any location.
+local fennel = require("fennel")
+
+-- Defold strips any unreferenced resources from the build. "Custom resources" must be specified in game.project (in this case "/fnlsrc" directory).
+-- Only method of loading those resources is using function sys.load_resource which puts content of file into string.
+-- via https://defold.com/ref/sys/#sys.load_resource:filename
+local script, error = sys.load_resource("/fnlscr/board.fnl")
+
+-- loaded string is transcompiled from fennel to lua and then loaded as chunk and ran using loadstring(string)() idiom
+-- via https://www.lua.org/manual/5.1/manual.html#pdf-loadstring
+if script then
+	local scriptcompiled = fennel.compileString(script)
+	assert(loadstring(scriptcompiled))()
+else
+	print(error)
+end

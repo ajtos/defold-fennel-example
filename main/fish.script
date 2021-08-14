@@ -1,0 +1,14 @@
+-- check board.script for more information
+go.property("color", hash("none"))
+go.property("blink", 0)
+
+local fennel = require("fennel")
+local script, 
+error = sys.load_resource("/fnlscr/fish.fnl")
+
+if script then
+	local scriptcompiled = fennel.compileString(script)
+	assert(loadstring(scriptcompiled))()
+else
+	print(error)
+end
