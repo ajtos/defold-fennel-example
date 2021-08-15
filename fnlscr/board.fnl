@@ -29,7 +29,8 @@
   (set self.board {})
   (set self.link {})
   (msg.post "#" :start_level)
-  (msg.post "." :acquire_input_focus))
+  (msg.post "." :acquire_input_focus)
+  (values))
 
 (fn build-board []
   (let [board {}]
@@ -190,7 +191,8 @@
                       (fn []
                         (let [s (empty-slots self.board)]
                           (when (> (length s) 0)
-                            (fill-slots self.board s (fn []))))))))
+                            (fill-slots self.board s (fn [])))))))
+  (values))
 
 (fn _G.on_input [self action-id action]
   (when (or (= action-id (hash :touch)) self.linking)
@@ -203,4 +205,4 @@
                        (set self.linking false)
                        (set self.link {})
                        (msg.post "#" :post-reaction)))))
-  true)
+  (values))

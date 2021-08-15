@@ -37,7 +37,8 @@
         (msg.post "#sprite-eyes" :play_animation {:id (hash (.. :eyes- c))}))
       (msg.post "#sprite" :disable))
   (set self.blinking false)
-  (blink self))
+  (blink self)
+  (values))
 
 (fn _G.on_message [self message-id message sender]
   (if (= message-id (hash :respawn))
@@ -95,4 +96,5 @@
       (= message-id (hash :remove))
       (do
         (particlefx.play "#explosion")
-        (go.delete))))
+        (go.delete)))
+  (values))
